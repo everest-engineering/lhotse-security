@@ -1,0 +1,6 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+engineering.everest.starterkit.security.config.Config,\
+engineering.everest.starterkit.security.config.AuthServerConfig,\
+engineering.everest.starterkit.security.config.ResourceServerConfig,\
+engineering.everest.starterkit.security.config.SecurityConfig,\
+engineering.everest.starterkit.security.config.WebSecurityConfig
