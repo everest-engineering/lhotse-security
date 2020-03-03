@@ -1,17 +1,23 @@
 package engineering.everest.starterkit.security.persistence;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2RefreshToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.AuthenticationKeyGenerator;
 import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class MongoTokenStore implements TokenStore {
+@Service
+@Transactional
+@Qualifier("authTokenStore")
+public class JpaAuthTokenStore implements TokenStore {
 
     private final OAuthAccessTokenRepository oauthAccessTokenRepository;
     private final OAuthRefreshTokenRepository oauthRefreshTokenRepository;
@@ -19,11 +25,11 @@ public class MongoTokenStore implements TokenStore {
     private final TokenKeyGenerator tokenKeyGenerator;
     private final OAuth2Serializer oauth2Serializer;
 
-    public MongoTokenStore(OAuthAccessTokenRepository oauthAccessTokenRepository,
-                           OAuthRefreshTokenRepository oauthRefreshTokenRepository,
-                           AuthenticationKeyGenerator authenticationKeyGenerator,
-                           TokenKeyGenerator tokenKeyGenerator,
-                           OAuth2Serializer oauth2Serializer) {
+    public JpaAuthTokenStore(OAuthAccessTokenRepository oauthAccessTokenRepository,
+                             OAuthRefreshTokenRepository oauthRefreshTokenRepository,
+                             AuthenticationKeyGenerator authenticationKeyGenerator,
+                             TokenKeyGenerator tokenKeyGenerator,
+                             OAuth2Serializer oauth2Serializer) {
         this.oauthAccessTokenRepository = oauthAccessTokenRepository;
         this.oauthRefreshTokenRepository = oauthRefreshTokenRepository;
         this.authenticationKeyGenerator = authenticationKeyGenerator;

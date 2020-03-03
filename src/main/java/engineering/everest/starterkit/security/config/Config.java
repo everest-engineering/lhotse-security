@@ -2,17 +2,19 @@ package engineering.everest.starterkit.security.config;
 
 import engineering.everest.starterkit.security.AuthenticationProvider;
 import engineering.everest.starterkit.security.AuthenticationServerUserDetailsService;
-import engineering.everest.starterkit.security.persistence.*;
+import engineering.everest.starterkit.security.persistence.JpaAuthTokenStore;
+import engineering.everest.starterkit.security.persistence.OAuth2Serializer;
+import engineering.everest.starterkit.security.persistence.OAuthAccessTokenRepository;
+import engineering.everest.starterkit.security.persistence.OAuthRefreshTokenRepository;
+import engineering.everest.starterkit.security.persistence.TokenKeyGenerator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.provider.token.AuthenticationKeyGenerator;
 import org.springframework.security.oauth2.provider.token.DefaultAuthenticationKeyGenerator;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 
 @Configuration
-@EnableMongoRepositories("engineering.everest.starterkit.security.persistence")
 public class Config {
     @Bean
     public AuthenticationKeyGenerator authenticationKeyGenerator() {
@@ -25,12 +27,12 @@ public class Config {
     }
 
     @Bean
-    public TokenStore mongoTokenStore(OAuthAccessTokenRepository oAuthAccessTokenRepository,
-                                      OAuthRefreshTokenRepository oAuthRefreshTokenRepository,
-                                      AuthenticationKeyGenerator authenticationKeyGenerator,
-                                      TokenKeyGenerator tokenKeyGenerator,
-                                      OAuth2Serializer oAuth2Serializer) {
-        return new MongoTokenStore(oAuthAccessTokenRepository, oAuthRefreshTokenRepository,
+    public TokenStore userSessionTokenStore(OAuthAccessTokenRepository oAuthAccessTokenRepository,
+                                            OAuthRefreshTokenRepository oAuthRefreshTokenRepository,
+                                            AuthenticationKeyGenerator authenticationKeyGenerator,
+                                            TokenKeyGenerator tokenKeyGenerator,
+                                            OAuth2Serializer oAuth2Serializer) {
+        return new JpaAuthTokenStore(oAuthAccessTokenRepository, oAuthRefreshTokenRepository,
                 authenticationKeyGenerator, tokenKeyGenerator, oAuth2Serializer);
     }
 

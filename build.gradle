@@ -17,7 +17,7 @@ repositories {
 }
 
 group = 'engineering.everest.starterkit'
-version = '0.0.6'
+version = '0.0.7'
 sourceCompatibility = '1.11'
 
 test {
@@ -45,7 +45,7 @@ dependencies {
     api "org.springframework.boot:spring-boot-starter-security"
 
     implementation "org.springframework.boot:spring-boot-starter-web"
-    implementation "org.springframework.boot:spring-boot-starter-data-mongodb"
+    implementation "org.springframework.boot:spring-boot-starter-data-jpa"
     implementation "org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:${springBootVersion}"
     implementation "org.springframework.security:spring-security-config"
 
