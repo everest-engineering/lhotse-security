@@ -1,6 +1,6 @@
 plugins {
 	id 'java'
-	id 'io.freefair.lombok' version '4.1.5'
+	id 'io.freefair.lombok' version '4.1.6'
 	id 'maven-publish'
 	id "com.jfrog.bintray" version "1.8.4"
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
@@ -17,7 +17,7 @@ repositories {
 }
 
 group = 'engineering.everest.starterkit'
-version = '0.0.6'
+version = '0.0.7'
 sourceCompatibility = '1.11'
 
 test {
@@ -25,14 +25,15 @@ test {
 }
 
 lombok {
-    version = "1.18.10"
+    version = "1.18.12"
     generateLombokConfig.enabled = false
 }
 
 ext {
-    springBootVersion = '2.2.4.RELEASE'
-    junitVersion = '5.5.2'
-    mockitoVersion = '2.23.0'
+    springBootVersion = '2.2.5.RELEASE'
+
+    junitVersion = '5.6.0'
+    mockitoVersion = '3.2.4'
 }
 
 dependencyManagement {
@@ -45,7 +46,7 @@ dependencies {
     api "org.springframework.boot:spring-boot-starter-security"
 
     implementation "org.springframework.boot:spring-boot-starter-web"
-    implementation "org.springframework.boot:spring-boot-starter-data-mongodb"
+    implementation "org.springframework.boot:spring-boot-starter-data-jpa"
     implementation "org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:${springBootVersion}"
     implementation "org.springframework.security:spring-security-config"
 
