@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 @Qualifier("authTokenStore")
-public class JpaAuthTokenStore implements TokenStore {
+public class AuthTokenStore implements TokenStore {
 
     private final OAuthAccessTokenRepository oauthAccessTokenRepository;
     private final OAuthRefreshTokenRepository oauthRefreshTokenRepository;
@@ -25,11 +25,11 @@ public class JpaAuthTokenStore implements TokenStore {
     private final TokenKeyGenerator tokenKeyGenerator;
     private final OAuth2Serializer oauth2Serializer;
 
-    public JpaAuthTokenStore(OAuthAccessTokenRepository oauthAccessTokenRepository,
-                             OAuthRefreshTokenRepository oauthRefreshTokenRepository,
-                             AuthenticationKeyGenerator authenticationKeyGenerator,
-                             TokenKeyGenerator tokenKeyGenerator,
-                             OAuth2Serializer oauth2Serializer) {
+    public AuthTokenStore(OAuthAccessTokenRepository oauthAccessTokenRepository,
+                          OAuthRefreshTokenRepository oauthRefreshTokenRepository,
+                          AuthenticationKeyGenerator authenticationKeyGenerator,
+                          TokenKeyGenerator tokenKeyGenerator,
+                          OAuth2Serializer oauth2Serializer) {
         this.oauthAccessTokenRepository = oauthAccessTokenRepository;
         this.oauthRefreshTokenRepository = oauthRefreshTokenRepository;
         this.authenticationKeyGenerator = authenticationKeyGenerator;

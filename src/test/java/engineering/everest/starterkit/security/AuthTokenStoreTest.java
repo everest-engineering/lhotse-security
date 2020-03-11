@@ -1,6 +1,6 @@
 package engineering.everest.starterkit.security;
 
-import engineering.everest.starterkit.security.persistence.JpaAuthTokenStore;
+import engineering.everest.starterkit.security.persistence.AuthTokenStore;
 import engineering.everest.starterkit.security.persistence.OAuth2Serializer;
 import engineering.everest.starterkit.security.persistence.OAuthAccessTokenRepository;
 import engineering.everest.starterkit.security.persistence.OAuthRefreshTokenRepository;
@@ -20,13 +20,13 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class JpaAuthTokenStoreTest {
+class AuthTokenStoreTest {
 
     private static final String ACCESS_TOKEN_VALUE = "ACCESS_TOKEN_VALUE";
     private static final String ACCESS_TOKEN_KEY = "ACCESS_TOKEN_KEY";
     private static final byte[] AUTHENTICATION_BYTES = "AUTHENTICATION_BYTES".getBytes();
 
-    private JpaAuthTokenStore jpaAuthTokenStore;
+    private AuthTokenStore authTokenStore;
 
     @Mock
     private OAuthAccessTokenRepository oAuthAccessTokenRepository;
@@ -41,7 +41,7 @@ class JpaAuthTokenStoreTest {
 
     @BeforeEach
     public void setUp() {
-        jpaAuthTokenStore = new JpaAuthTokenStore(oAuthAccessTokenRepository, oAuthRefreshTokenRepository,
+        authTokenStore = new AuthTokenStore(oAuthAccessTokenRepository, oAuthRefreshTokenRepository,
                 authenticationKeyGenerator, tokenKeyGenerator, oAuth2Serializer);
         when(tokenKeyGenerator.extractKey(ACCESS_TOKEN_VALUE)).thenReturn(ACCESS_TOKEN_KEY);
     }
@@ -54,6 +54,6 @@ class JpaAuthTokenStoreTest {
         OAuth2Authentication oAuth2Authentication = mock(OAuth2Authentication.class);
         when(oAuth2Serializer.deserializeAuthentication(AUTHENTICATION_BYTES)).thenReturn(oAuth2Authentication);
 
-        assertEquals(oAuth2Authentication, jpaAuthTokenStore.readAuthentication(new DefaultOAuth2AccessToken(ACCESS_TOKEN_VALUE)));
+        assertEquals(oAuth2Authentication, authTokenStore.readAuthentication(new DefaultOAuth2AccessToken(ACCESS_TOKEN_VALUE)));
     }
 }

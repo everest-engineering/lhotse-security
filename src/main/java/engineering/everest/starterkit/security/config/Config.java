@@ -2,7 +2,7 @@ package engineering.everest.starterkit.security.config;
 
 import engineering.everest.starterkit.security.AuthenticationProvider;
 import engineering.everest.starterkit.security.AuthenticationServerUserDetailsService;
-import engineering.everest.starterkit.security.persistence.JpaAuthTokenStore;
+import engineering.everest.starterkit.security.persistence.AuthTokenStore;
 import engineering.everest.starterkit.security.persistence.OAuth2Serializer;
 import engineering.everest.starterkit.security.persistence.OAuthAccessTokenRepository;
 import engineering.everest.starterkit.security.persistence.OAuthRefreshTokenRepository;
@@ -34,7 +34,7 @@ public class Config {
                                      AuthenticationKeyGenerator authenticationKeyGenerator,
                                      TokenKeyGenerator tokenKeyGenerator,
                                      OAuth2Serializer oAuth2Serializer) {
-        return new JpaAuthTokenStore(oAuthAccessTokenRepository, oAuthRefreshTokenRepository,
+        return new AuthTokenStore(oAuthAccessTokenRepository, oAuthRefreshTokenRepository,
                 authenticationKeyGenerator, tokenKeyGenerator, oAuth2Serializer);
     }
 
