@@ -7,6 +7,7 @@ import engineering.everest.starterkit.security.persistence.OAuth2Serializer;
 import engineering.everest.starterkit.security.persistence.OAuthAccessTokenRepository;
 import engineering.everest.starterkit.security.persistence.OAuthRefreshTokenRepository;
 import engineering.everest.starterkit.security.persistence.TokenKeyGenerator;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,11 +28,12 @@ public class Config {
     }
 
     @Bean
-    public TokenStore userSessionTokenStore(OAuthAccessTokenRepository oAuthAccessTokenRepository,
-                                            OAuthRefreshTokenRepository oAuthRefreshTokenRepository,
-                                            AuthenticationKeyGenerator authenticationKeyGenerator,
-                                            TokenKeyGenerator tokenKeyGenerator,
-                                            OAuth2Serializer oAuth2Serializer) {
+    @Qualifier("authTokenStore")
+    public TokenStore authTokenStore(OAuthAccessTokenRepository oAuthAccessTokenRepository,
+                                     OAuthRefreshTokenRepository oAuthRefreshTokenRepository,
+                                     AuthenticationKeyGenerator authenticationKeyGenerator,
+                                     TokenKeyGenerator tokenKeyGenerator,
+                                     OAuth2Serializer oAuth2Serializer) {
         return new JpaAuthTokenStore(oAuthAccessTokenRepository, oAuthRefreshTokenRepository,
                 authenticationKeyGenerator, tokenKeyGenerator, oAuth2Serializer);
     }
