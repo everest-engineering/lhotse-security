@@ -74,6 +74,7 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
                 .authenticationManager(authenticationManager)
                 .accessTokenConverter(jwtAccessTokenConverter)
                 .userDetailsService(userDetailsService)
-                .tokenStore(tokenStore);
+                .tokenStore(tokenStore)
+                .reuseRefreshTokens(false);
     }
 }

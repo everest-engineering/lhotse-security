@@ -17,6 +17,13 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.NegatedRequestMatcher;
 import org.springframework.security.web.util.matcher.OrRequestMatcher;
 
+import static engineering.everest.starterkit.security.config.SecurityConfig.APP_API;
+import static engineering.everest.starterkit.security.config.SecurityConfig.GUEST_API;
+import static engineering.everest.starterkit.security.config.SecurityConfig.SPRING_ACTUATOR_API;
+import static engineering.everest.starterkit.security.config.SecurityConfig.SPRING_ACTUATOR_HEALTH_API;
+import static engineering.everest.starterkit.security.config.SecurityConfig.SPRING_ACTUATOR_PROM_API;
+import static engineering.everest.starterkit.security.config.SecurityConfig.SWAGGER_API_DOCUMENTATION;
+import static engineering.everest.starterkit.security.config.SecurityConfig.VERSION_API;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 
@@ -47,15 +54,15 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         OrRequestMatcher requestMatcher = new OrRequestMatcher(
                 new AndRequestMatcher(
-                        new NegatedRequestMatcher(new AntPathRequestMatcher(SecurityConfig.VERSION_API)),
-                        new NegatedRequestMatcher(new AntPathRequestMatcher(SecurityConfig.GUEST_API)),
-                        new NegatedRequestMatcher(new AntPathRequestMatcher(SecurityConfig.SWAGGER_API_DOCUMENTATION)),
-                        new AntPathRequestMatcher(SecurityConfig.APP_API)
+                        new NegatedRequestMatcher(new AntPathRequestMatcher(VERSION_API)),
+                        new NegatedRequestMatcher(new AntPathRequestMatcher(GUEST_API)),
+                        new NegatedRequestMatcher(new AntPathRequestMatcher(SWAGGER_API_DOCUMENTATION)),
+                        new AntPathRequestMatcher(APP_API)
                 ),
                 new AndRequestMatcher(
-                        new AntPathRequestMatcher(SecurityConfig.SPRING_ACTUATOR_API),
-                        new NegatedRequestMatcher(new AntPathRequestMatcher(SecurityConfig.SPRING_ACTUATOR_HEALTH_API)),
-                        new NegatedRequestMatcher(new AntPathRequestMatcher(SecurityConfig.SPRING_ACTUATOR_PROM_API))
+                        new AntPathRequestMatcher(SPRING_ACTUATOR_API),
+                        new NegatedRequestMatcher(new AntPathRequestMatcher(SPRING_ACTUATOR_HEALTH_API)),
+                        new NegatedRequestMatcher(new AntPathRequestMatcher(SPRING_ACTUATOR_PROM_API))
                 )
         );
 
@@ -66,5 +73,4 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .authorizeRequests()
                 .anyRequest().authenticated();
     }
-
 }
