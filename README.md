@@ -1,4 +1,8 @@
 ## Security
+[![Build Status](https://travis-ci.com/everest-engineering/lhotse-security.svg?branch=master)](https://travis-ci.com/everest-engineering/lhotse-security)
+
+This is a supporting repository for [Lhotse](https://github.com/everest-engineering/lhotse), a starter kit for writing event sourced web applications following domain driven design principles.
+
 The `security` module builds on 
 [Spring Security OAuth](https://projects.spring.io/spring-security-oauth/docs/oauth2.html).
 Out of the box, it sets up both an __authorization server__ and a __resource server__ (the main application) that 
