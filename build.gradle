@@ -1,9 +1,9 @@
 plugins {
+    id 'com.palantir.git-version' version '0.12.3'
 	id 'java-library'
 	id 'io.freefair.lombok' version '4.1.6'
 	id 'maven-publish'
 	id 'com.jfrog.bintray' version '1.8.4'
-    id 'fr.brouillard.oss.gradle.jgitver' version '0.9.1'
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
 }
 
@@ -16,6 +16,7 @@ repositories {
 
 group = 'engineering.everest.starterkit'
 sourceCompatibility = '1.11'
+version = gitVersion()
 
 test {
 	useJUnitPlatform()
@@ -24,11 +25,6 @@ test {
 lombok {
     version = '1.18.12'
     generateLombokConfig.enabled = false
-}
-
-jgitver {
-    autoIncrementPatch = false
-    useDirty = true
 }
 
 ext {
