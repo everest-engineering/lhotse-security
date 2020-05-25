@@ -13,10 +13,11 @@ import java.security.SecureRandom;
 public class SecurityConfig {
 
     static final String APP_API = "/api/**";
+    static final String ORGANIZATIONS_REGISTER_API = "/api/organizations/register/**";
+    static final String ORGANIZATIONS_REGISTER_CONFIRM_API = "/api/organizations/**/register/**";
     static final String VERSION_API = "/api/version";
     static final String GUEST_API = "/api/guest";
     static final String SWAGGER_API_DOCUMENTATION = "/api/doc/**";
-    static final String ADMIN_API = "/api/admin/**";
     static final String SPRING_ACTUATOR_API = "/actuator/**";
     static final String SPRING_ACTUATOR_HEALTH_API = "/actuator/health/**";
     static final String SPRING_ACTUATOR_PROM_API = "/actuator/prometheus/**";

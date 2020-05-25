@@ -17,8 +17,10 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.NegatedRequestMatcher;
 import org.springframework.security.web.util.matcher.OrRequestMatcher;
 
+import static engineering.everest.starterkit.security.config.SecurityConfig.ORGANIZATIONS_REGISTER_API;
 import static engineering.everest.starterkit.security.config.SecurityConfig.APP_API;
 import static engineering.everest.starterkit.security.config.SecurityConfig.GUEST_API;
+import static engineering.everest.starterkit.security.config.SecurityConfig.ORGANIZATIONS_REGISTER_CONFIRM_API;
 import static engineering.everest.starterkit.security.config.SecurityConfig.SPRING_ACTUATOR_API;
 import static engineering.everest.starterkit.security.config.SecurityConfig.SPRING_ACTUATOR_HEALTH_API;
 import static engineering.everest.starterkit.security.config.SecurityConfig.SPRING_ACTUATOR_PROM_API;
@@ -52,11 +54,13 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        OrRequestMatcher requestMatcher = new OrRequestMatcher(
+        OrRequestMatcher fullyAuthorizedRequestMatcher = new OrRequestMatcher(
                 new AndRequestMatcher(
                         new NegatedRequestMatcher(new AntPathRequestMatcher(VERSION_API)),
                         new NegatedRequestMatcher(new AntPathRequestMatcher(GUEST_API)),
                         new NegatedRequestMatcher(new AntPathRequestMatcher(SWAGGER_API_DOCUMENTATION)),
+                        new NegatedRequestMatcher(new AntPathRequestMatcher(ORGANIZATIONS_REGISTER_API)),
+                        new NegatedRequestMatcher(new AntPathRequestMatcher(ORGANIZATIONS_REGISTER_CONFIRM_API)),
                         new AntPathRequestMatcher(APP_API)
                 ),
                 new AndRequestMatcher(
@@ -68,7 +72,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
         http.cors().and()
                 .csrf().disable()
-                .requestMatcher(requestMatcher)
+                .requestMatcher(fullyAuthorizedRequestMatcher)
                 .sessionManagement().sessionCreationPolicy(STATELESS).and()
                 .authorizeRequests()
                 .anyRequest().authenticated();
