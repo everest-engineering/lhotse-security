@@ -12,16 +12,6 @@ import java.security.SecureRandom;
 @Configuration
 public class SecurityConfig {
 
-    static final String APP_API = "/api/**";
-    static final String ORGANIZATIONS_REGISTER_API = "/api/organizations/register/**";
-    static final String ORGANIZATIONS_REGISTER_CONFIRM_API = "/api/organizations/**/register/**";
-    static final String VERSION_API = "/api/version";
-    static final String GUEST_API = "/api/guest";
-    static final String SWAGGER_API_DOCUMENTATION = "/api/doc/**";
-    static final String SPRING_ACTUATOR_API = "/actuator/**";
-    static final String SPRING_ACTUATOR_HEALTH_API = "/actuator/health/**";
-    static final String SPRING_ACTUATOR_PROM_API = "/actuator/prometheus/**";
-
     private static final int DEFAULT_PASSWORD_ENCODER_STRENGTH = 10;
 
     @Bean
@@ -31,7 +21,7 @@ public class SecurityConfig {
 
     @Bean
     JwtAccessTokenConverter jwtAccessTokenConverter(@Value("${application.jwt.signing-secret}") String jwtSigningSecret) {
-        JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
+        var jwtAccessTokenConverter = new JwtAccessTokenConverter();
         jwtAccessTokenConverter.setSigningKey(jwtSigningSecret);
         return jwtAccessTokenConverter;
     }
