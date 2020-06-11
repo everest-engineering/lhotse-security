@@ -47,7 +47,7 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
     }
 
     @Override
-    public void configure(AuthorizationServerSecurityConfigurer securityConfigurer) throws Exception {
+    public void configure(AuthorizationServerSecurityConfigurer securityConfigurer) {
         securityConfigurer
                 .passwordEncoder(passwordEncoder)
                 .tokenKeyAccess("permitAll()")
@@ -69,7 +69,7 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
     }
 
     @Override
-    public void configure(AuthorizationServerEndpointsConfigurer endpointsConfigurer) throws Exception {
+    public void configure(AuthorizationServerEndpointsConfigurer endpointsConfigurer) {
         endpointsConfigurer
                 .authenticationManager(authenticationManager)
                 .accessTokenConverter(jwtAccessTokenConverter)

@@ -12,20 +12,7 @@ import org.springframework.security.oauth2.provider.token.DefaultAccessTokenConv
 import org.springframework.security.oauth2.provider.token.DefaultUserAuthenticationConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
-import org.springframework.security.web.util.matcher.AndRequestMatcher;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.security.web.util.matcher.NegatedRequestMatcher;
-import org.springframework.security.web.util.matcher.OrRequestMatcher;
 
-import static engineering.everest.starterkit.security.config.SecurityConfig.ORGANIZATIONS_REGISTER_API;
-import static engineering.everest.starterkit.security.config.SecurityConfig.APP_API;
-import static engineering.everest.starterkit.security.config.SecurityConfig.GUEST_API;
-import static engineering.everest.starterkit.security.config.SecurityConfig.ORGANIZATIONS_REGISTER_CONFIRM_API;
-import static engineering.everest.starterkit.security.config.SecurityConfig.SPRING_ACTUATOR_API;
-import static engineering.everest.starterkit.security.config.SecurityConfig.SPRING_ACTUATOR_HEALTH_API;
-import static engineering.everest.starterkit.security.config.SecurityConfig.SPRING_ACTUATOR_PROM_API;
-import static engineering.everest.starterkit.security.config.SecurityConfig.SWAGGER_API_DOCUMENTATION;
-import static engineering.everest.starterkit.security.config.SecurityConfig.VERSION_API;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 
@@ -33,6 +20,36 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @Order(20)
 @EnableResourceServer
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
+
+    private static final String ADMIN_API = "/admin/**";
+    private static final String SPRING_ACTUATOR_API = "/actuator/**";
+    private static final String APP_API = "/api/**";
+    private static final String SPRING_ACTUATOR_PROM_API = "/actuator/prometheus/**";
+    private static final String CATCH_ALL_PATH = "/**";
+    private static final String ORGANIZATIONS_REGISTER_API = "/api/organizations/register/**";
+    private static final String ORGANIZATIONS_REGISTER_CONFIRM_API = "/api/organizations/**/register/**";
+    private static final String VERSION_API = "/api/version";
+    private static final String SPRING_ACTUATOR_HEALTH_API = "/actuator/health/**";
+    private static final String GUEST_API = "/api/guest";
+    private static final String SWAGGER_API_DOCUMENTATION = "/api/doc/**";
+
+    private static final String[] ADMIN_USERS_PATHS = {
+            ADMIN_API,
+            SPRING_ACTUATOR_API
+    };
+    private static final String[] AUTHENTICATED_USER_PATHS = {
+            APP_API,
+            SPRING_ACTUATOR_PROM_API,
+            CATCH_ALL_PATH
+    };
+    private static final String[] ANONYMOUS_USER_PATHS = {
+            ORGANIZATIONS_REGISTER_API,
+            ORGANIZATIONS_REGISTER_CONFIRM_API,
+            VERSION_API,
+            SPRING_ACTUATOR_HEALTH_API,
+            GUEST_API,
+            SWAGGER_API_DOCUMENTATION
+    };
 
     private final JwtAccessTokenConverter jwtAccessTokenConverter;
 
@@ -54,27 +71,12 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        OrRequestMatcher fullyAuthorizedRequestMatcher = new OrRequestMatcher(
-                new AndRequestMatcher(
-                        new NegatedRequestMatcher(new AntPathRequestMatcher(VERSION_API)),
-                        new NegatedRequestMatcher(new AntPathRequestMatcher(GUEST_API)),
-                        new NegatedRequestMatcher(new AntPathRequestMatcher(SWAGGER_API_DOCUMENTATION)),
-                        new NegatedRequestMatcher(new AntPathRequestMatcher(ORGANIZATIONS_REGISTER_API)),
-                        new NegatedRequestMatcher(new AntPathRequestMatcher(ORGANIZATIONS_REGISTER_CONFIRM_API)),
-                        new AntPathRequestMatcher(APP_API)
-                ),
-                new AndRequestMatcher(
-                        new AntPathRequestMatcher(SPRING_ACTUATOR_API),
-                        new NegatedRequestMatcher(new AntPathRequestMatcher(SPRING_ACTUATOR_HEALTH_API)),
-                        new NegatedRequestMatcher(new AntPathRequestMatcher(SPRING_ACTUATOR_PROM_API))
-                )
-        );
-
         http.cors().and()
                 .csrf().disable()
-                .requestMatcher(fullyAuthorizedRequestMatcher)
                 .sessionManagement().sessionCreationPolicy(STATELESS).and()
-                .authorizeRequests()
-                .anyRequest().authenticated();
+                .authorizeRequests(request ->
+                        request.antMatchers(ADMIN_USERS_PATHS).access("hasRole('ADMIN')")
+                                .antMatchers(ANONYMOUS_USER_PATHS).access("permitAll")
+                                .antMatchers(AUTHENTICATED_USER_PATHS).access("authenticated"));
     }
 }
