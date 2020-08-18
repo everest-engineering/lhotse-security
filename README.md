@@ -1,5 +1,5 @@
 # Lhotse security module
-[![Build Status](https://travis-ci.com/everest-engineering/lhotse-security.svg?branch=master)](https://travis-ci.com/everest-engineering/lhotse-security)
+[![Build Status](https://travis-ci.com/everest-engineering/lhotse-security.svg?branch=master)](https://travis-ci.com/everest-engineering/lhotse-security) ![Latest release](https://img.shields.io/github/v/release/everest-engineering/lhotse-security)
 
 This is a supporting repository for [Lhotse](https://github.com/everest-engineering/lhotse), a starter kit for writing event sourced web applications following domain driven design principles.
 
