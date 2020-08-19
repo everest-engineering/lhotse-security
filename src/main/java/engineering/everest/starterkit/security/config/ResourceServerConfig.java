@@ -32,6 +32,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     private static final String SPRING_ACTUATOR_HEALTH_API = "/actuator/health/**";
     private static final String GUEST_API = "/api/guest";
     private static final String SWAGGER_API_DOCUMENTATION = "/api/doc/**";
+    private static final String SWAGGER_UI = "/swagger-ui/**";
+    private static final String SWAGGER_RESOURCES = "/swagger-resources/**";
 
     private static final String[] ADMIN_USERS_PATHS = {
             ADMIN_API,
@@ -48,7 +50,9 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
             VERSION_API,
             SPRING_ACTUATOR_HEALTH_API,
             GUEST_API,
-            SWAGGER_API_DOCUMENTATION
+            SWAGGER_API_DOCUMENTATION,
+            SWAGGER_UI,
+            SWAGGER_RESOURCES
     };
 
     private final JwtAccessTokenConverter jwtAccessTokenConverter;
