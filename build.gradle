@@ -28,10 +28,10 @@ lombok {
 }
 
 ext {
-    springBootVersion = '2.3.3.RELEASE'
+    springBootVersion = '2.3.4.RELEASE'
 
-    junitVersion = '5.6.2'
-    mockitoVersion = '3.5.0'
+    junitVersion = '5.7.0'
+    mockitoVersion = '3.5.15'
 }
 
 dependencyManagement {
