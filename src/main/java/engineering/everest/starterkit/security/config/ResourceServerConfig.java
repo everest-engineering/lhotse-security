@@ -79,8 +79,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(STATELESS).and()
                 .authorizeRequests(request ->
-                        request.antMatchers(ADMIN_USERS_PATHS).access("hasRole('ADMIN')")
-                                .antMatchers(ANONYMOUS_USER_PATHS).access("permitAll")
+                        request.antMatchers(ANONYMOUS_USER_PATHS).access("permitAll")
+                                .antMatchers(ADMIN_USERS_PATHS).access("hasRole('ADMIN')")
                                 .antMatchers(AUTHENTICATED_USER_PATHS).access("authenticated"));
     }
 }
