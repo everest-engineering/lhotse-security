@@ -2,6 +2,9 @@ name: Build
 on:
   push:
     branches:
+      - master
+      - releases/*
+      - sonar-cloud-integration
       - *
   pull_request:
     types: [opened, synchronize, reopened]
