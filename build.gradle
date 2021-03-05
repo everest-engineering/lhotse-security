@@ -5,6 +5,8 @@ plugins {
     id 'maven-publish'
     id 'com.jfrog.bintray' version '1.8.4'
     id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+    id "org.sonarqube" version "3.1.1"
+
 }
 
 apply plugin: 'io.freefair.lombok'
@@ -52,6 +54,14 @@ dependencies {
     testImplementation "org.mockito:mockito-junit-jupiter:${mockitoVersion}"
     testImplementation "org.springframework.boot:spring-boot-starter-test"
     testImplementation "org.springframework.security:spring-security-test"
+}
+
+sonarqube {
+    properties {
+        property "sonar.projectKey", "everest-engineering_lhotse-security"
+        property "sonar.organization", "everestengineering"
+        property "sonar.host.url", "https://sonarcloud.io"
+    }
 }
 
 bintray {
