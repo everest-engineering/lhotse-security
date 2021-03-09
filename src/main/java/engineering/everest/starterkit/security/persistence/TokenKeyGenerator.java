@@ -14,7 +14,7 @@ public class TokenKeyGenerator {
         }
         MessageDigest digest;
         try {
-            digest = MessageDigest.getInstance("MD5");
+            digest = MessageDigest.getInstance("SHA-256");
         } catch (NoSuchAlgorithmException e) {
             throw new IllegalStateException("MD5 algorithm not available. Fatal (should be in the JDK).", e);
         }
