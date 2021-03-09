@@ -5,8 +5,9 @@ plugins {
     id 'maven-publish'
     id 'com.jfrog.bintray' version '1.8.4'
     id 'io.spring.dependency-management' version '1.0.10.RELEASE'
-    id "org.sonarqube" version "3.1.1"
-
+    id 'com.github.jk1.dependency-license-report' version '1.14'
+    id 'org.sonarqube' version '3.1.1'
+    id 'jacoco'
 }
 
 apply plugin: 'io.freefair.lombok'
@@ -56,14 +57,6 @@ dependencies {
     testImplementation "org.springframework.security:spring-security-test"
 }
 
-sonarqube {
-    properties {
-        property "sonar.projectKey", "everest-engineering_lhotse-security"
-        property "sonar.organization", "everestengineering"
-        property "sonar.host.url", "https://sonarcloud.io"
-    }
-}
-
 bintray {
     user = System.getenv('BINTRAY_USER')
     key = System.getenv('BINTRAY_KEY')
@@ -73,7 +66,7 @@ bintray {
         name = rootProject.name
         userOrg = 'everestengineering'
         licenses = ['Apache-2.0']
-        vcsUrl = 'https://github.com/everestengineering/starterkit-storage'
+        vcsUrl = 'https://github.com/everestengineering/starterkit-security'
     }
     publish = true
 }
@@ -85,3 +78,26 @@ publishing {
         }
     }
 }
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        csv.enabled false
+        html.enabled true
+    }
+}
+
+test.finalizedBy jacocoTestReport
+
+sonarqube {
+    properties {
+        property "sonar.projectName", "Lhotse - security"
+        property "sonar.projectKey", "everest-engineering_lhotse-security"
+        property "sonar.organization", "everestengineering"
+        property "sonar.host.url", "https://sonarcloud.io"
+        property 'sonar.test.exclusions', '**/*Test.java'
+    }
+}
+
+tasks['sonarqube'].dependsOn test
+
