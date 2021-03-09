@@ -28,6 +28,7 @@ test {
 lombok {
     version = '1.18.16'
     generateLombokConfig.enabled = false
+    config['lombok.addLombokGeneratedAnnotation'] = 'true'
 }
 
 ext {
