@@ -3,7 +3,7 @@ plugins {
     id 'java-library'
     id 'io.freefair.lombok' version '5.1.1'
     id 'maven-publish'
-    id 'com.jfrog.bintray' version '1.8.4'
+    id 'signing'
     id 'io.spring.dependency-management' version '1.0.10.RELEASE'
     id 'com.github.jk1.dependency-license-report' version '1.14'
     id 'org.sonarqube' version '3.1.1'
@@ -13,23 +13,13 @@ plugins {
 apply plugin: 'io.freefair.lombok'
 apply plugin: 'idea'
 
-repositories {
-    mavenCentral()
-}
-
 group = 'engineering.everest.starterkit'
 sourceCompatibility = '1.11'
-version = gitVersion()
 
-test {
-	useJUnitPlatform()
-}
-
-lombok {
-    version = '1.18.16'
-    generateLombokConfig.enabled = false
-    config['lombok.addLombokGeneratedAnnotation'] = 'true'
-}
+def gitTagVersion = versionDetails()
+version = gitTagVersion.commitDistance == 0
+        ? gitTagVersion.lastTag
+        : "${gitTagVersion.lastTag}+${gitTagVersion.commitDistance}-SNAPSHOT"
 
 ext {
     springBootVersion = '2.4.0'
@@ -58,47 +48,26 @@ dependencies {
     testImplementation "org.springframework.security:spring-security-test"
 }
 
-bintray {
-    user = System.getenv('BINTRAY_USER')
-    key = System.getenv('BINTRAY_KEY')
-    publications = ['maven']
-    pkg {
-        repo = 'starterkit'
-        name = rootProject.name
-        userOrg = 'everestengineering'
-        licenses = ['Apache-2.0']
-        vcsUrl = 'https://github.com/everestengineering/starterkit-security'
-    }
-    publish = true
-}
-
-publishing {
-    publications {
-        maven(MavenPublication) {
-            from components.java
-        }
+java {
+    java {
+        withJavadocJar()
+        withSourcesJar()
     }
 }
 
-jacocoTestReport {
-    reports {
-        xml.enabled true
-        csv.enabled false
-        html.enabled true
-    }
+repositories {
+    mavenCentral()
 }
 
-test.finalizedBy jacocoTestReport
-
-sonarqube {
-    properties {
-        property "sonar.projectName", "Lhotse - security"
-        property "sonar.projectKey", "everest-engineering_lhotse-security"
-        property "sonar.organization", "everestengineering"
-        property "sonar.host.url", "https://sonarcloud.io"
-        property 'sonar.test.exclusions', '**/*Test.java'
-    }
+test {
+    useJUnitPlatform()
 }
 
-tasks['sonarqube'].dependsOn test
+lombok {
+    version = '1.18.16'
+    generateLombokConfig.enabled = false
+    config['lombok.addLombokGeneratedAnnotation'] = 'true'
+}
 
+apply from: 'publishing.gradle'
+apply from: 'sonar.gradle'
