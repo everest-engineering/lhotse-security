@@ -27,11 +27,8 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
     private final TokenStore tokenStore;
     private final int accessTokenValiditySeconds;
     private final int refreshTokenValiditySeconds;
-
-    @Value("${application.oauth.client.id}")
-    private String clientId;
-    @Value("${application.oauth.client.secret}")
-    private String clientSecret;
+    private final String clientId;
+    private final String clientSecret;
 
     @Autowired
     public AuthServerConfig(PasswordEncoder passwordEncoder,
@@ -40,7 +37,9 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
                             AuthenticationManager authenticationManager,
                             @Qualifier("authTokenStore") TokenStore tokenStore,
                             @Value("${application.jwt.access-token.validity-seconds:3600}") int accessTokenValiditySeconds,
-                            @Value("${application.jwt.refresh-token.validity-seconds:7200}") int refreshTokenValiditySeconds) {
+                            @Value("${application.jwt.refresh-token.validity-seconds:7200}") int refreshTokenValiditySeconds,
+                            @Value("${application.oauth.client.id}") String clientId,
+                            @Value("${application.oauth.client.secret}") String clientSecret) {
         super();
         this.passwordEncoder = passwordEncoder;
         this.jwtAccessTokenConverter = jwtAccessTokenConverter;
@@ -49,6 +48,8 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
         this.tokenStore = tokenStore;
         this.accessTokenValiditySeconds = accessTokenValiditySeconds;
         this.refreshTokenValiditySeconds = refreshTokenValiditySeconds;
+        this.clientId = clientId;
+        this.clientSecret = clientSecret;
     }
 
     @Override
