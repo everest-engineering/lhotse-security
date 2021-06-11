@@ -28,6 +28,11 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
     private final int accessTokenValiditySeconds;
     private final int refreshTokenValiditySeconds;
 
+    @Value("${application.oauth.client.id}")
+    private String clientId;
+    @Value("${application.oauth.client.secret}")
+    private String clientSecret;
+
     @Autowired
     public AuthServerConfig(PasswordEncoder passwordEncoder,
                             JwtAccessTokenConverter jwtAccessTokenConverter,
@@ -58,8 +63,8 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
     @Override
     public void configure(ClientDetailsServiceConfigurer clientsConfigurer) throws Exception {
         clientsConfigurer.inMemory()
-                .withClient("web-app-ui")
-                .secret(passwordEncoder.encode(""))
+                .withClient(clientId)
+                .secret(passwordEncoder.encode(clientSecret))
                 .authorizedGrantTypes("password", "refresh_token")
                 .scopes("all")
                 .accessTokenValiditySeconds(accessTokenValiditySeconds)
