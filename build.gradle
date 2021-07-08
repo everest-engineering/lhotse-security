@@ -1,16 +1,14 @@
 plugins {
     id 'com.palantir.git-version' version '0.12.3'
     id 'java-library'
-    id 'io.freefair.lombok' version '5.1.1'
     id 'maven-publish'
     id 'signing'
-    id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'com.github.jk1.dependency-license-report' version '1.14'
-    id 'org.sonarqube' version '3.1.1'
+    id 'org.sonarqube' version '3.3'
     id 'jacoco'
 }
 
-apply plugin: 'io.freefair.lombok'
 apply plugin: 'idea'
 
 group = 'engineering.everest.starterkit'
@@ -22,10 +20,11 @@ version = gitTagVersion.commitDistance == 0
         : "${gitTagVersion.lastTag}+${gitTagVersion.commitDistance}-SNAPSHOT"
 
 ext {
-    springBootVersion = '2.4.0'
+    lombokVersion = '1.18.20'
+    springBootVersion = '2.4.8'
 
-    junitVersion = '5.7.0'
-    mockitoVersion = '3.5.15'
+    junitVersion = '5.7.2'
+    mockitoVersion = '3.11.2'
 }
 
 dependencyManagement {
@@ -37,11 +36,15 @@ dependencyManagement {
 dependencies {
     api "org.springframework.boot:spring-boot-starter-security"
 
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
     implementation "org.springframework.boot:spring-boot-starter-web"
     implementation "org.springframework.boot:spring-boot-starter-data-jpa"
     implementation "org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:${springBootVersion}"
     implementation "org.springframework.security:spring-security-config"
 
+    testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
+    testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
     testImplementation "org.junit.jupiter:junit-jupiter:${junitVersion}"
     testImplementation "org.mockito:mockito-junit-jupiter:${mockitoVersion}"
     testImplementation "org.springframework.boot:spring-boot-starter-test"
@@ -61,12 +64,6 @@ repositories {
 
 test {
     useJUnitPlatform()
-}
-
-lombok {
-    version = '1.18.16'
-    generateLombokConfig.enabled = false
-    config['lombok.addLombokGeneratedAnnotation'] = 'true'
 }
 
 apply from: 'publishing.gradle'
