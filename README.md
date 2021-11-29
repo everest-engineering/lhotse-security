@@ -1,8 +1,10 @@
-# Lhotse security module
-[![Build status](https://badge.buildkite.com/5d3eb43310655e3e0f3c9bb22792024e466a6d1b007a014a73.svg?branch=main)](https://buildkite.com/everest-engineering/lhotse-security) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=everest-engineering_lhotse-security&metric=alert_status)](https://sonarcloud.io/dashboard?id=everest-engineering_lhotse-security)
+# ARCHIVED
 
-This is a supporting repository for [Lhotse](https://github.com/everest-engineering/lhotse), a starter kit for writing event sourced web applications following domain driven design principles.
+This **was** a supporting repository for [Lhotse](https://github.com/everest-engineering/lhotse). 
 
+**It has now been archived** as the project has moved on and no longer relies on local user accounts.
+
+## Introduction
 The `security` module builds on 
 [Spring Security OAuth](https://projects.spring.io/spring-security-oauth/docs/oauth2.html).
 Out of the box, it sets up both an __authorization server__ and a __resource server__ (the main application) that 
